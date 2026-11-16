@@ -9,7 +9,7 @@ public final class ServerConfig {
     static {
         var b = new ForgeConfigSpec.Builder();
         b.comment("Ghostbound - Server Configuration", "All rules are enforced on the logical server").push("restrictions");
-        CONTAINERS = b.comment("Block external inventory slots before standard menu synchronization").define("blockContainerViewing", true);
+        CONTAINERS = b.comment("Block all external menus, including slotless menus, before their creation through standard menu providers").define("blockContainerViewing", true);
         VANILLA_TP = b.comment("Block vanilla spectator teleport packets, not administrator commands").define("blockVanillaSpectatorTeleport", true);
         CAMERA = b.comment("Block spectator attack camera possession, not administrator commands").define("blockEntitySpectating", true);
         b.pop().push("teleport");

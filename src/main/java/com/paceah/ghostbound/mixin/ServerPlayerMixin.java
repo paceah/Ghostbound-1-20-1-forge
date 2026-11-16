@@ -13,9 +13,16 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import com.paceah.ghostbound.service.RequestService;
+import net.minecraft.world.level.GameType;
 
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin {
+    @Inject(method="setGameMode",at=@At("RETURN"))
+    private void ghostbound$mode(GameType mode,CallbackInfoReturnable<Boolean> ci) {
+        if(ci.getReturnValue()) RequestService.invalidate((ServerPlayer)(Object)this);
+    }
     @Redirect(method="attack",at=@At(value="INVOKE",target="Lnet/minecraft/server/level/ServerPlayer;setCamera(Lnet/minecraft/world/entity/Entity;)V"))
     private void ghostbound$camera(ServerPlayer p,Entity entity) {
         if(!p.isSpectator() || !ServerConfig.CAMERA.get() || entity==p) p.setCamera(entity);
@@ -35,6 +42,7 @@ public abstract class ServerPlayerMixin {
     @Inject(method="tick",at=@At("HEAD"))
     private void ghostbound$tick(CallbackInfo ci) {
         var p=(ServerPlayer)(Object)this;
+        if(p.isSpectator() && ServerConfig.CAMERA.get() && p.getCamera()!=p) p.setCamera(p);
         // Close existing menus before vanilla broadcastChanges after a mode/config change.
         if(SpectatorProtection.blocked(p,p.containerMenu)) p.closeContainer();
     }

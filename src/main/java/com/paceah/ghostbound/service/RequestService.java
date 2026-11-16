@@ -12,6 +12,16 @@ import java.util.*;
 import static net.minecraft.ChatFormatting.*;
 
 public final class RequestService {
+    public static void invalidate(ServerPlayer player) {
+        var d=RequestSavedData.get(player.server);
+        for(var r:new ArrayList<>(d.pending.values())) {
+            if(r.sender.equals(player.getUUID()) || r.target.equals(player.getUUID())) {
+                finish(d,r,Status.INVALID,d.now());
+                error(player.server.getPlayerList().getPlayer(r.sender),"error.invalid_request");
+                error(player.server.getPlayerList().getPlayer(r.target),"error.invalid_request");
+            }
+        }
+    }
     private static void error(ServerPlayer p,String key,Object... args) { Messages.send(p,key,RED,args); }
     public static void sweep(MinecraftServer s) {
         var d=RequestSavedData.get(s); long now=d.now();
@@ -23,8 +33,8 @@ public final class RequestService {
                 cooldownMessage(sender,r.targetName,d.cooldowns.getOrDefault(r.pair(),now)-now);
             } else {
                 var sender=s.getPlayerList().getPlayer(r.sender); var target=s.getPlayerList().getPlayer(r.target);
-                // Offline requests remain until expiry; mode changes invalidate even before a later reconnect.
-                if(sender!=null && !sender.isSpectator() || target!=null && target.isSpectator()) {
+                if(sender==null || target==null || !sender.isAlive() || !target.isAlive() ||
+                    !sender.isSpectator() || target.isSpectator()) {
                     finish(d,r,Status.INVALID,now);
                     error(sender,"error.mode_changed"); error(target,"error.invalid_request");
                 }

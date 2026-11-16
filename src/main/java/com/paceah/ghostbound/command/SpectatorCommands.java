@@ -13,6 +13,12 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid="ghostbound")
 public final class SpectatorCommands {
+    @SubscribeEvent public static void logout(net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent e) {
+        if(e.getEntity() instanceof ServerPlayer p) RequestService.invalidate(p);
+    }
+    @SubscribeEvent public static void death(net.minecraftforge.event.entity.living.LivingDeathEvent e) {
+        if(e.getEntity() instanceof ServerPlayer p) RequestService.invalidate(p);
+    }
     @SubscribeEvent public static void register(RegisterCommandsEvent e) {
         e.getDispatcher().register(Commands.literal("spectp").requires(s->s.getEntity() instanceof ServerPlayer && s.getEntity()==s.getPlayer())
             .then(Commands.argument("player",StringArgumentType.word()).suggests((c,b)->SharedSuggestionProvider.suggest(c.getSource().getOnlinePlayerNames(),b))
