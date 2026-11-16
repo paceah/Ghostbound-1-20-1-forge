@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "com.paceah.ghostbound.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "ghostbound.refmap.json",
+  "mixins": ["SpectatorPacketMixin", "ServerPlayerMixin", "NetworkHooksMixin"],
+  "injectors": { "defaultRequire": 1 }
+}

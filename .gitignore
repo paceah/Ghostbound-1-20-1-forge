@@ -1,0 +1,90 @@
+﻿# Gradle caches and build output
+.gradle/
+**/build/
+out/
+bin/
+/run-data/
+/mcmodsrepo/
+*.class
+*.jar
+*.war
+# The wrapper is required to build a fresh clone
+!gradle/wrapper/gradle-wrapper.jar
+
+# Local Minecraft instances and generated runtime data
+/run/
+/runs/
+/logs/
+/crash-reports/
+/saves/
+/world/
+/world_nether/
+/world_the_end/
+/backups/
+/screenshots/
+/mods/
+/resourcepacks/
+/shaderpacks/
+/server.properties
+/eula.txt
+/usercache.json
+/usernamecache.json
+/ops.json
+/whitelist.json
+/banned-players.json
+/banned-ips.json
+/options.txt
+/optionsof.txt
+
+# IDE metadata and generated project files
+.idea/
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+*.iml
+*.ipr
+*.iws
+*.launch
+
+# Local agent instructions and tooling
+/.agents/
+/AGENTS.md
+/.codex/
+/.claude/
+
+# Logs, diagnostics, temporary files and editor backups
+*.log
+*.log.*
+*.hprof
+hs_err_pid*
+replay_pid*
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+*.swp
+*.swo
+*~
+
+# Local credentials and machine-specific configuration
+.env
+.env.*
+!.env.example
+!.env.sample
+/local.properties
+/gradle-local.properties
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.key
+
+# Operating system metadata
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/

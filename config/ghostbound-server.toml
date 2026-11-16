@@ -1,0 +1,32 @@
+
+#Ghostbound - Server Configuration
+#All rules are enforced on the logical server
+[restrictions]
+	#Block external inventory slots before standard menu synchronization
+	blockContainerViewing = true
+	#Block vanilla spectator teleport packets, not administrator commands
+	blockVanillaSpectatorTeleport = true
+	#Block spectator attack camera possession, not administrator commands
+	blockEntitySpectating = true
+
+[teleport]
+	#Enable consent teleport requests
+	enableTeleportRequests = true
+
+	[teleport.requests]
+		#Real seconds before expiry, minimum 1, maximum 86400
+		#Range: 1 ~ 86400
+		requestTimeoutSeconds = 60
+		#Pair cooldown after denial or expiry, 0 disables, maximum one year
+		#Range: 0 ~ 31536000
+		rejectedRequestCooldownSeconds = 600
+		#Minimum real seconds between new requests from one sender, 0 disables
+		#Range: 0 ~ 86400
+		minimumSecondsBetweenNewRequests = 3
+		#Maximum pending requests per sender
+		#Range: 1 ~ 100
+		maxPendingRequestsPerSender = 3
+
+[notifications]
+	#Send incoming clickable chat notification
+	sendIncomingRequestMessage = true
